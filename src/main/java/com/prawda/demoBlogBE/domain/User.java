@@ -62,4 +62,20 @@ public class User {
         this.email = email;
         this.posts = posts;
     }
+
+    public User(String id,
+                String firstName,
+                String lastName,
+                String username,
+                String passwordHash,
+                String email,
+                List<Post> posts) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.email = email;
+        this.posts = posts;
+    }
 }
