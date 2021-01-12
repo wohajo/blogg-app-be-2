@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import org.springframework.data.relational.core.mapping.Table;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+@Table("post")
+public class PostDBO {
     private Long id;
     private String contents;
-    private User user;
+    private Long userId;
 }

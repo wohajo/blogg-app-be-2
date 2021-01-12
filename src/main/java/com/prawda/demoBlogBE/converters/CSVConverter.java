@@ -10,7 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class CSVConverter {
     private static final String SAMPLE_CSV_FILE_PATH = "src/main/resources/OnePosts.csv";
@@ -19,6 +18,17 @@ public class CSVConverter {
 
         List<User> usersToAdd = new ArrayList<>();
         List<Post> postsToAdd = new ArrayList<>();
+
+        User admin = new User(
+                1L,
+                "AdminF",
+                "AdminS",
+                "Admin",
+                "Admin",
+                "Admin@this.com",
+                true);
+
+        usersToAdd.add(admin);
 
         try (
                 CSVReader csvReader = new CSVReaderBuilder(
@@ -44,35 +54,25 @@ public class CSVConverter {
 
                 if (FoundUser == null) {
                     newUser = new User(
-                            UUID.randomUUID().toString(),
+                            (long) usersToAdd.size(),
                             splitName[0],
                             splitName[1],
                             splitName[0] + splitName[1],
                             splitName[0] + splitName[1],
                             splitName[0] + splitName[1] + "@this.com",
-                            new ArrayList<>());
+                            false);
 
                     newPost = new Post(
-                            nextRecord[0],
+                            Long.parseLong(nextRecord[0]),
                             nextRecord[2],
                             newUser);
-
-                    List<Post> usersPosts = newUser.getPosts();
-                    usersPosts.add(newPost);
-
-                    newUser.setPosts(usersPosts);
 
                     usersToAdd.add(newUser);
                 } else {
                     newPost = new Post(
-                            nextRecord[0],
+                            Long.parseLong(nextRecord[0]),
                             nextRecord[2],
                             FoundUser);
-
-                    List<Post> usersPosts = FoundUser.getPosts();
-                    usersPosts.add(newPost);
-
-                    FoundUser.setPosts(usersPosts);
                 }
 
                 postsToAdd.add(newPost);
