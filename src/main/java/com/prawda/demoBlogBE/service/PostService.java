@@ -6,10 +6,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface PostService {
-    Mono<Post> findById(String id);
+    Mono<Post> findById(Long id);
     Mono<Void> updatePost(Post newPost);
     Flux<Post> getAllPosts();
     Mono<Void> remove(String id);
-    Flux<Post> findByAuthor(String givenAuthorName);
+    Flux<Post> findByUserId(Long userId);
     Flux<Post> findByWord(String givenWord);
 }

@@ -5,6 +5,7 @@ import com.prawda.demoBlogBE.domain.PostAPIResponse;
 import com.prawda.demoBlogBE.repositories.PostRepository;
 import com.prawda.demoBlogBE.service.PostService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

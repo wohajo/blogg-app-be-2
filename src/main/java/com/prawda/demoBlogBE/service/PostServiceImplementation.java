@@ -1,15 +1,25 @@
 package com.prawda.demoBlogBE.service;
 
 import com.prawda.demoBlogBE.domain.Post;
+import com.prawda.demoBlogBE.domain.PostDBO;
+import com.prawda.demoBlogBE.repositories.PostRepository;
+import com.prawda.demoBlogBE.repositories.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@AllArgsConstructor
 public class PostServiceImplementation implements PostService {
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
+
     @Override
-    public Mono<Post> findById(String id) {
-        return null;
+    public Mono<Post> findById(Long id) {
+        return postRepository
+                .findById(id)
+                .flatMap(this::withUser);
     }
 
     @Override
@@ -19,7 +29,9 @@ public class PostServiceImplementation implements PostService {
 
     @Override
     public Flux<Post> getAllPosts() {
-        return null;
+        return postRepository
+                .findAll()
+                .flatMap(this::withUser);
     }
 
     @Override
@@ -28,12 +40,20 @@ public class PostServiceImplementation implements PostService {
     }
 
     @Override
-    public Flux<Post> findByAuthor(String givenAuthorName) {
-        return null;
+    public Flux<Post> findByUserId(Long userId) {
+        return postRepository
+                .findByUserId(userId)
+                .flatMap(this::withUser);
     }
 
     @Override
     public Flux<Post> findByWord(String givenWord) {
         return null;
+    }
+
+    private Mono<Post> withUser(PostDBO postDBO) {
+        return userRepository
+                .findById(postDBO.getUserId())
+                .map(user -> postDBO.toDomain(user.toDomain()));
     }
 }
