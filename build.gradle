@@ -30,7 +30,6 @@ repositories {
 classes.dependsOn(flywayMigrate)
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'org.hibernate.validator:hibernate-validator:7.0.0.Final'

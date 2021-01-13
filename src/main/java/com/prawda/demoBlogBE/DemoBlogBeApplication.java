@@ -1,14 +1,15 @@
 package com.prawda.demoBlogBE;
 
 import com.prawda.demoBlogBE.converters.CSVConverter;
-import com.prawda.demoBlogBE.domain.User;
-import com.prawda.demoBlogBE.domain.UserDBO;
+import com.prawda.demoBlogBE.domain.PostDBO;
 import com.prawda.demoBlogBE.helpers.CSVData;
+import com.prawda.demoBlogBE.repositories.PostRepository;
 import com.prawda.demoBlogBE.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ public class DemoBlogBeApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(UserRepository userRepository) throws IOException {
+	public CommandLineRunner demo(UserRepository userRepository, PostRepository postRepository) throws IOException {
 
 		CSVConverter csvConverter = new CSVConverter();
 		CSVData csvData = csvConverter.parse();
@@ -29,6 +30,16 @@ public class DemoBlogBeApplication {
 			csvData.getUserList().forEach(user -> {
 				userRepository.save(user.toDBO()).subscribe();
 			});
+
+			Flux.fromStream(csvData.getPostList().stream())
+					.flatMap(post ->
+							userRepository
+									.findByName(post.getUser().getName())
+									.map(user -> new PostDBO(null, post.getContents(), user.getId()))
+					)
+					.flatMap(postRepository::save)
+					.subscribe();
+
 		};
 	}
 }
