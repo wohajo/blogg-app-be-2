@@ -5,6 +5,7 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import com.prawda.demoBlogBE.domain.Post;
 import com.prawda.demoBlogBE.domain.User;
+import com.prawda.demoBlogBE.helpers.CSVData;
 import com.prawda.demoBlogBE.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -19,18 +20,18 @@ import java.util.List;
 public class CSVConverter {
     private static final String SAMPLE_CSV_FILE_PATH = "src/main/resources/OnePosts.csv";
 
-    public void parse() throws IOException {
+    public CSVData parse() throws IOException {
 
         List<User> usersToAdd = new ArrayList<>();
         List<Post> postsToAdd = new ArrayList<>();
+        CSVData csvData = new CSVData(new ArrayList<>(), new ArrayList<>());
 
         User admin = new User(
-                1L,
-                "AdminF",
-                "AdminS",
+                null,
                 "Admin",
                 "Admin",
-                "Admin@this.com",
+                "Admin",
+                "Admin@admin.com",
                 true);
 
         usersToAdd.add(admin);
@@ -47,25 +48,27 @@ public class CSVConverter {
                 Post newPost;
 
                 System.out.println("id : " + nextRecord[0]);
-              System.out.println("Author : " + nextRecord[1]);
+                System.out.println("Author : " + nextRecord[1]);
                 System.out.println("Contents : " + nextRecord[2].length());
-                String[] splitName = nextRecord[1].split(" ");
+                String tempAuthor = nextRecord[1];
+                String tempAuthorNoSpace = nextRecord[1].replace(" ", "");
 
                 User FoundUser = usersToAdd
                         .stream()
-                        .filter(user -> user.getFirstName().equals(splitName[0]) && user.getLastName().equals(splitName[1]))
+                        .filter(user -> user.getName()
+                                .equals(tempAuthor))
                         .findFirst()
                         .orElse(null);
 
                 if (FoundUser == null) {
                     newUser = new User(
-                            (long) usersToAdd.size(),
-                            splitName[0],
-                            splitName[1],
-                            splitName[0] + splitName[1],
-                            splitName[0] + splitName[1],
-                            splitName[0] + splitName[1] + "@this.com",
+                            null,
+                            tempAuthor,
+                            tempAuthorNoSpace,
+                            tempAuthorNoSpace + "!",
+                            tempAuthorNoSpace + "@xd.pl",
                             false);
+
 
                     newPost = new Post(
                             Long.parseLong(nextRecord[0]),
@@ -82,11 +85,14 @@ public class CSVConverter {
 
                 postsToAdd.add(newPost);
 
+                csvData.setPostList(postsToAdd);
+                csvData.setUserList(usersToAdd);
                 System.out.println("==========================");
             }
 
         } catch (CsvValidationException e) {
             e.printStackTrace();
         }
+        return csvData;
     }
 }

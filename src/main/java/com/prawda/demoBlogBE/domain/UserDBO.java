@@ -14,14 +14,13 @@ import org.springframework.data.relational.core.mapping.Table;
 public class UserDBO {
     @Id
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String username;
     private String passwordHash;
     private String email;
     private Boolean isAdmin;
 
     public User toDomain() {
-        return new User(id, firstName, lastName, username, passwordHash, email, isAdmin);
+        return new User(id, name, username, passwordHash, email, isAdmin);
     }
 }

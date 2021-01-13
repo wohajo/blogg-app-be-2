@@ -17,6 +17,6 @@ public class Post {
     }
 
     public PostAPIResponse toAPIResponse() {
-        return new PostAPIResponse(id, contents, user.getFirstName(), user.getLastName());
+        return new PostAPIResponse(id, contents, user.getName());
     }
 }

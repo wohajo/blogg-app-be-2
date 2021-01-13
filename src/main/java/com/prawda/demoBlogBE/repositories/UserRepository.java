@@ -7,7 +7,6 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface UserRepository extends ReactiveSortingRepository<UserDBO, Long> {
-    Mono<UserDBO> findByFirstName(String firstName);
-    Mono<UserDBO> findByLastName(String lastName);
+    Mono<UserDBO> findByName(String name);
     Mono<UserDBO> findByUsernameAndPasswordHash(String username, String passwordHash);
 }

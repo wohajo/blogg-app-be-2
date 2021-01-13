@@ -1,7 +1,9 @@
 package com.prawda.demoBlogBE;
 
+import com.prawda.demoBlogBE.converters.CSVConverter;
 import com.prawda.demoBlogBE.domain.User;
 import com.prawda.demoBlogBE.domain.UserDBO;
+import com.prawda.demoBlogBE.helpers.CSVData;
 import com.prawda.demoBlogBE.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,21 +20,15 @@ public class DemoBlogBeApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(UserRepository userRepository) {
+	public CommandLineRunner demo(UserRepository userRepository) throws IOException {
 
-		User admin = new User(
-				null,
-				"AdminF",
-				"AdminS",
-				"Admin",
-				"Admin",
-				"Admin@this.com",
-				true);
-
-		UserDBO adminDBO = admin.toDBO();
+		CSVConverter csvConverter = new CSVConverter();
+		CSVData csvData = csvConverter.parse();
 
 		return (args) -> {
-			userRepository.save(adminDBO).subscribe();
+			csvData.getUserList().forEach(user -> {
+				userRepository.save(user.toDBO()).subscribe();
+			});
 		};
 	}
 }

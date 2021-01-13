@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 public class PostAPIResponse {
     private Long id;
     private String contents;
-    private String firstName;
-    private String lastName;
+    private String name;
 }

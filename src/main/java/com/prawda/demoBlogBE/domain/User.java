@@ -21,12 +21,7 @@ public class User {
     @NotNull(message = "First name should not be null.")
     @NotEmpty(message = "First name should not be empty.")
     @Length(min = 3, max = 60, message = "The field must be at least 3 characters.")
-    private String firstName;
-
-    @NotNull(message = "Last name should not be null.")
-    @NotEmpty(message = "Last name should not be empty.")
-    @Length(min = 3, max = 60, message = "The field must be at least 3 characters.")
-    private String lastName;
+    private String name;
 
     @NotNull(message = "Username should not be null.")
     @NotEmpty(message = "Username should not be empty.")
@@ -44,6 +39,6 @@ public class User {
     private Boolean isAdmin;
 
     public UserDBO toDBO() {
-        return new UserDBO(id, firstName, lastName, username, passwordHash, email, isAdmin);
+        return new UserDBO(id, name, username, passwordHash, email, isAdmin);
     }
 }
