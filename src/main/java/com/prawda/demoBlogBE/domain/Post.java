@@ -11,4 +11,12 @@ public class Post {
     private Long id;
     private String contents;
     private User user;
+
+    public PostDBO toDBO() {
+        return new PostDBO(id, contents, user.getId());
+    }
+
+    public PostAPIResponse toAPIResponse() {
+        return new PostAPIResponse(id, contents, user.getFirstName(), user.getLastName());
+    }
 }

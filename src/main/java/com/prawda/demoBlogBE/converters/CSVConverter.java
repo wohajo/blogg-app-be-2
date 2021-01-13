@@ -5,16 +5,21 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import com.prawda.demoBlogBE.domain.Post;
 import com.prawda.demoBlogBE.domain.User;
+import com.prawda.demoBlogBE.repositories.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 public class CSVConverter {
     private static final String SAMPLE_CSV_FILE_PATH = "src/main/resources/OnePosts.csv";
 
-    public static void main(String[] args) throws IOException {
+    public void parse() throws IOException {
 
         List<User> usersToAdd = new ArrayList<>();
         List<Post> postsToAdd = new ArrayList<>();

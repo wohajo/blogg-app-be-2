@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+    @Id
     private Long id;
 
     @NotNull(message = "First name should not be null.")
@@ -40,4 +42,8 @@ public class User {
     private String email;
 
     private Boolean isAdmin;
+
+    public UserDBO toDBO() {
+        return new UserDBO(id, firstName, lastName, username, passwordHash, email, isAdmin);
+    }
 }

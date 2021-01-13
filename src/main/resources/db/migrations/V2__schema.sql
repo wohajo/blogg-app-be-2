@@ -1,17 +1,17 @@
 CREATE TABLE users
 (
     id BIGINT GENERATED ALWAYS AS IDENTITY UNIQUE,
-    firstName VARCHAR (60) UNIQUE NOT NULL,
-    lastName VARCHAR (60) UNIQUE NOT NULL,
+    first_name VARCHAR (60) UNIQUE NOT NULL,
+    last_name VARCHAR (60) UNIQUE NOT NULL,
     username VARCHAR (60) UNIQUE NOT NULL,
-    passwordHash VARCHAR (20) NOT NULL,
+    password_hash VARCHAR (20) NOT NULL,
     email VARCHAR (150) NOT NULL,
-    isAdmin BOOLEAN NOT NULL
+    is_admin BOOLEAN NOT NULL
 );
 
 CREATE TABLE posts
 (
     id BIGINT GENERATED ALWAYS AS IDENTITY UNIQUE,
     contents TEXT NOT NULL,
-    userId BIGINT REFERENCES users(id) NOT NULL
+    user_id BIGINT REFERENCES users(id) NOT NULL
 );

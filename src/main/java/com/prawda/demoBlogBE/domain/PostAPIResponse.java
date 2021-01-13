@@ -4,18 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import org.springframework.data.relational.core.mapping.Table;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("post")
-public class PostDBO {
+public class PostAPIResponse {
     private Long id;
     private String contents;
-    private Long userId;
-
-    public Post toDomain(User user) {
-        return new Post(id, contents, user);
-    }
+    private String firstName;
+    private String lastName;
 }
