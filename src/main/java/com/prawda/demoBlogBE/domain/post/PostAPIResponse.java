@@ -1,4 +1,4 @@
-package com.prawda.demoBlogBE.domain;
+package com.prawda.demoBlogBE.domain.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

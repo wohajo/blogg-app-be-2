@@ -1,7 +1,7 @@
 package com.prawda.demoBlogBE;
 
 import com.prawda.demoBlogBE.converters.CSVConverter;
-import com.prawda.demoBlogBE.domain.PostDBO;
+import com.prawda.demoBlogBE.domain.post.PostDBO;
 import com.prawda.demoBlogBE.helpers.CSVData;
 import com.prawda.demoBlogBE.repositories.PostRepository;
 import com.prawda.demoBlogBE.repositories.UserRepository;

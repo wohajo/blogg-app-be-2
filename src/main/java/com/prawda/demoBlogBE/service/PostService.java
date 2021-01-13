@@ -1,7 +1,6 @@
 package com.prawda.demoBlogBE.service;
 
-import com.prawda.demoBlogBE.domain.Post;
-import org.springframework.stereotype.Service;
+import com.prawda.demoBlogBE.domain.post.Post;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

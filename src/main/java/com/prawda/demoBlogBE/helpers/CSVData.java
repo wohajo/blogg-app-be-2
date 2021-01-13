@@ -1,7 +1,7 @@
 package com.prawda.demoBlogBE.helpers;
 
-import com.prawda.demoBlogBE.domain.Post;
-import com.prawda.demoBlogBE.domain.User;
+import com.prawda.demoBlogBE.domain.post.Post;
+import com.prawda.demoBlogBE.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

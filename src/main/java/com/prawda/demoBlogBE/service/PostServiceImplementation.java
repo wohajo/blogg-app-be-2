@@ -1,7 +1,7 @@
 package com.prawda.demoBlogBE.service;
 
-import com.prawda.demoBlogBE.domain.Post;
-import com.prawda.demoBlogBE.domain.PostDBO;
+import com.prawda.demoBlogBE.domain.post.Post;
+import com.prawda.demoBlogBE.domain.post.PostDBO;
 import com.prawda.demoBlogBE.repositories.PostRepository;
 import com.prawda.demoBlogBE.repositories.UserRepository;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.prawda.demoBlogBE.domain;
+package com.prawda.demoBlogBE.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,5 +40,9 @@ public class User {
 
     public UserDBO toDBO() {
         return new UserDBO(id, name, username, passwordHash, email, isAdmin);
+    }
+
+    public UserAPIResponse toAPIResponse() {
+        return new UserAPIResponse(id, name, email, isAdmin);
     }
 }
