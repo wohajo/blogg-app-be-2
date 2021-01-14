@@ -1,6 +1,7 @@
 package com.prawda.demoBlogBE.service;
 
 import com.prawda.demoBlogBE.domain.post.Post;
+import com.prawda.demoBlogBE.domain.post.PostAPIRequest;
 import com.prawda.demoBlogBE.domain.post.PostDBO;
 import com.prawda.demoBlogBE.repositories.PostRepository;
 import com.prawda.demoBlogBE.repositories.UserRepository;
@@ -13,6 +14,7 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class PostServiceImplementation implements PostService {
     private final PostRepository postRepository;
+    private final UserService userService;
     private final UserRepository userRepository;
 
     @Override
@@ -49,6 +51,16 @@ public class PostServiceImplementation implements PostService {
     @Override
     public Flux<Post> findByWord(String givenWord) {
         return null;
+    }
+
+    @Override
+    public Mono<Long> addPost(PostAPIRequest postAPIRequest, String auth) {
+        return userService
+                .authorizeUser(auth)
+                .flatMap(user -> Mono.just(postAPIRequest)
+                        .map(postAPIRequest1 -> postAPIRequest1.toDomain(user).toDBO()))
+                .flatMap(postRepository::save)
+                .map(PostDBO::getId);
     }
 
     private Mono<Post> withUser(PostDBO postDBO) {

@@ -27,7 +27,7 @@ public class CSVConverter {
                 null,
                 "Admin",
                 "Admin",
-                "Admin",
+                "Admin", //TODO hash it
                 "Admin@admin.com",
                 true);
 
@@ -62,7 +62,7 @@ public class CSVConverter {
                             null,
                             tempAuthor,
                             tempAuthorNoSpace,
-                            tempAuthorNoSpace + "!",
+                            tempAuthorNoSpace + "!", //TODO hash it
                             tempAuthorNoSpace + "@xd.pl",
                             false);
 

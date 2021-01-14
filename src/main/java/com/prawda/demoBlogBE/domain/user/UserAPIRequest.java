@@ -2,9 +2,11 @@ package com.prawda.demoBlogBE.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserAPIRequest {
     private String name;
     private String username;
