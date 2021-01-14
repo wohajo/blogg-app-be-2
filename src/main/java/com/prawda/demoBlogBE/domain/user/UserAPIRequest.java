@@ -3,6 +3,7 @@ package com.prawda.demoBlogBE.domain.user;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.codec.digest.DigestUtils;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,6 @@ public class UserAPIRequest {
     private Boolean isAdmin;
 
     public User toDomain() {
-        //TODO hash password
-        return new User(null, name, username, password, email, isAdmin);
+        return new User(null, name, username, DigestUtils.sha512Hex(password), email, isAdmin);
     }
 }

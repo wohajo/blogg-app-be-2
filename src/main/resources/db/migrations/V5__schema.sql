@@ -3,7 +3,7 @@ CREATE TABLE users
     id BIGINT GENERATED ALWAYS AS IDENTITY UNIQUE,
     name VARCHAR (60) UNIQUE NOT NULL,
     username VARCHAR (60) UNIQUE NOT NULL,
-    password_hash VARCHAR (20) NOT NULL,
+    password_hash VARCHAR (128) NOT NULL,
     email VARCHAR (150) NOT NULL,
     is_admin BOOLEAN NOT NULL
 );

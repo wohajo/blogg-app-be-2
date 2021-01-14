@@ -7,6 +7,7 @@ import com.prawda.demoBlogBE.domain.post.Post;
 import com.prawda.demoBlogBE.domain.user.User;
 import com.prawda.demoBlogBE.helpers.CSVData;
 import lombok.AllArgsConstructor;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class CSVConverter {
                 null,
                 "Admin",
                 "Admin",
-                "Admin", //TODO hash it
+                DigestUtils.sha512Hex("Admin"),
                 "Admin@admin.com",
                 true);
 
@@ -62,7 +63,7 @@ public class CSVConverter {
                             null,
                             tempAuthor,
                             tempAuthorNoSpace,
-                            tempAuthorNoSpace + "!", //TODO hash it
+                            DigestUtils.sha512Hex(tempAuthorNoSpace + "!"),
                             tempAuthorNoSpace + "@xd.pl",
                             false);
 
