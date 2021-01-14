@@ -6,7 +6,9 @@ import com.prawda.demoBlogBE.domain.post.PostDBO;
 import com.prawda.demoBlogBE.repositories.PostRepository;
 import com.prawda.demoBlogBE.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -32,7 +34,7 @@ public class PostServiceImplementation implements PostService {
                                 .authorizeUser(auth)
                                 .map(user -> user.getIsAdmin() || post.getUser().equals(user))
                                 .filter(foundUser -> foundUser)
-                                .switchIfEmpty(Mono.error(new RuntimeException("User is not authorized to do this"))) //TODO domain it
+                                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized.")))
                                 .thenReturn(post.withContents(postAPIRequest.getContents()))
                                 .flatMap(updatedPost -> postRepository.save(updatedPost.toDBO()))
                                 .then()
@@ -54,7 +56,7 @@ public class PostServiceImplementation implements PostService {
                                 .authorizeUser(auth)
                                 .map(user -> user.getIsAdmin() || post.getUser().equals(user))
                                 .filter(foundUser -> foundUser)
-                                .switchIfEmpty(Mono.error(new RuntimeException("User is not authorized to do this"))) //TODO domain it
+                                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized.")))
                                 .then(postRepository.delete(post.toDBO()))
                 );
     }

@@ -5,7 +5,9 @@ import com.prawda.demoBlogBE.domain.user.UserAPIRequest;
 import com.prawda.demoBlogBE.domain.user.UserDBO;
 import com.prawda.demoBlogBE.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -20,7 +22,7 @@ public class UserServiceImplementation implements UserService {
                 .findByName(userAPIRequest.getName())
                 .hasElement()
                 .filter(aBoolean -> !aBoolean)
-                .switchIfEmpty(Mono.error(new RuntimeException("user exists"))) //TODO make this a response error as well as others
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already in database."))) //TODO make this a response error as well as others
                 .thenReturn(userAPIRequest)
                 .map(userAPIRequest1 -> userAPIRequest1.toDomain().toDBO())
                 .flatMap(userRepository::save)
@@ -35,10 +37,10 @@ public class UserServiceImplementation implements UserService {
         return Mono
                 .just(authArray)
                 .filter(strings -> strings.length == 2)
-                .switchIfEmpty(Mono.error(new RuntimeException("bad auth"))) //err
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized.")))
                 .flatMap(authArray1 -> userRepository
                         .findByUsernameAndPasswordHash(authArray1[0], authArray1[1]))
                 .map(userDBO -> userDBO.toDomain())
-                .switchIfEmpty(Mono.error(new RuntimeException("bad auth")));
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized.")));
     }
 }
