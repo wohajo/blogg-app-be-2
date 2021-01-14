@@ -27,4 +27,19 @@ public class PostAPI {
             @RequestBody PostAPIRequest postAPIRequest) {
         return postService.addPost(postAPIRequest, auth);
     }
+
+    @PutMapping("/{id}")
+    public Mono<Void> updatePost(
+            @RequestHeader("Authorization") String auth,
+            @PathVariable Long id,
+            @RequestBody PostAPIRequest postAPIRequest) {
+        return postService.updatePost(postAPIRequest, id, auth);
+    }
+
+    @DeleteMapping("/{id}")
+    public Mono<Void> deletePost(
+            @RequestHeader("Authorization") String auth,
+            @PathVariable Long id) {
+        return postService.remove(id, auth);
+    }
 }

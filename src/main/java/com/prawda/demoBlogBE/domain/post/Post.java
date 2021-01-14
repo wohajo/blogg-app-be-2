@@ -4,8 +4,10 @@ import com.prawda.demoBlogBE.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.With;
 
 @Data
+@With
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {

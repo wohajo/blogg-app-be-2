@@ -7,9 +7,9 @@ import reactor.core.publisher.Mono;
 
 public interface PostService {
     Mono<Post> findById(Long id);
-    Mono<Void> updatePost(Post newPost);
+    Mono<Void> updatePost(PostAPIRequest postAPIRequest, Long id, String auth);
     Flux<Post> getAllPosts();
-    Mono<Void> remove(String id);
+    Mono<Void> remove(Long id, String auth);
     Flux<Post> findByUserId(Long userId);
     Flux<Post> findByWord(String givenWord);
     Mono<Long> addPost(PostAPIRequest postAPIRequest, String auth);

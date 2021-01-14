@@ -25,8 +25,18 @@ public class PostServiceImplementation implements PostService {
     }
 
     @Override
-    public Mono<Void> updatePost(Post newPost) {
-        return null;
+    public Mono<Void> updatePost(PostAPIRequest postAPIRequest, Long id, String auth) {
+        return findById(id)
+                .flatMap(post ->
+                        userService
+                                .authorizeUser(auth)
+                                .map(user -> user.getIsAdmin() || post.getUser().equals(user))
+                                .filter(foundUser -> foundUser)
+                                .switchIfEmpty(Mono.error(new RuntimeException("User is not authorized to do this"))) //TODO domain it
+                                .thenReturn(post.withContents(postAPIRequest.getContents()))
+                                .flatMap(updatedPost -> postRepository.save(updatedPost.toDBO()))
+                                .then()
+                );
     }
 
     @Override
@@ -37,8 +47,16 @@ public class PostServiceImplementation implements PostService {
     }
 
     @Override
-    public Mono<Void> remove(String id) {
-        return null;
+    public Mono<Void> remove(Long id, String auth) {
+        return findById(id)
+                .flatMap(post ->
+                        userService
+                                .authorizeUser(auth)
+                                .map(user -> user.getIsAdmin() || post.getUser().equals(user))
+                                .filter(foundUser -> foundUser)
+                                .switchIfEmpty(Mono.error(new RuntimeException("User is not authorized to do this"))) //TODO domain it
+                                .then(postRepository.delete(post.toDBO()))
+                );
     }
 
     @Override
@@ -50,7 +68,9 @@ public class PostServiceImplementation implements PostService {
 
     @Override
     public Flux<Post> findByWord(String givenWord) {
-        return null;
+        return postRepository
+                .findByContents(givenWord)
+                .flatMap(this::withUser);
     }
 
     @Override
