@@ -21,6 +21,13 @@ public class PostAPI {
         return postService.getAllPosts().map(Post::toAPIResponse);
     }
 
+    @GetMapping("/user/{id}")
+    public Flux<PostAPIResponse> getPostsByUserId(@PathVariable Long id) {
+        return postService
+                .findByUserId(id)
+                .map(Post::toAPIResponse);
+    }
+
     @PostMapping
     public Mono<Long> addPost(
             @RequestHeader("Authorization") String auth,
