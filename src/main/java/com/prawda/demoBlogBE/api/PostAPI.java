@@ -30,6 +30,7 @@ public class PostAPI {
                 .map(Post::toAPIResponse);
     }
 
+    @CrossOrigin
     @PostMapping
     public Mono<Long> addPost(
             @RequestHeader("Authorization") String auth,
@@ -37,6 +38,7 @@ public class PostAPI {
         return postService.addPost(postAPIRequest, auth);
     }
 
+    @CrossOrigin
     @PutMapping("/{id}")
     public Mono<Void> updatePost(
             @RequestHeader("Authorization") String auth,
@@ -45,6 +47,7 @@ public class PostAPI {
         return postService.updatePost(postAPIRequest, id, auth);
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public Mono<Void> deletePost(
             @RequestHeader("Authorization") String auth,

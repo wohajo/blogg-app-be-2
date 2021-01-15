@@ -14,12 +14,14 @@ import reactor.core.publisher.Mono;
 public class UserAPI {
     private final UserService userService;
 
+    @CrossOrigin
     @PostMapping("/register")
     public Mono<Long> registerUser(@RequestBody UserAPIRequest userAPIRequest) {
         return
                 userService.registerUser(userAPIRequest);
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     public Mono<UserAPIResponse> loginUser(@RequestHeader("Authorization") String auth) {
         return
