@@ -62,10 +62,13 @@ public class PostServiceImplementation implements PostService {
     }
 
     @Override
-    public Flux<Post> findByUserId(Long userId) {
-        return postRepository
-                .findByUserId(userId)
-                .flatMap(this::withUser);
+    public Flux<Post> findByUserId(Long userId, String auth) {
+        return userService
+                .authorizeUser(auth)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized.")))
+                .thenMany(postRepository
+                        .findByUserId(userId)
+                        .flatMap(this::withUser));
     }
 
     @Override

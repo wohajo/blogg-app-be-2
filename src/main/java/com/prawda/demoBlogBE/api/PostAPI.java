@@ -22,9 +22,11 @@ public class PostAPI {
     }
 
     @GetMapping("/user/{id}")
-    public Flux<PostAPIResponse> getPostsByUserId(@PathVariable Long id) {
+    public Flux<PostAPIResponse> getPostsByUserId(
+            @RequestHeader("Authorization") String auth,
+            @PathVariable Long id) {
         return postService
-                .findByUserId(id)
+                .findByUserId(id, auth)
                 .map(Post::toAPIResponse);
     }
 

@@ -10,7 +10,7 @@ public interface PostService {
     Mono<Void> updatePost(PostAPIRequest postAPIRequest, Long id, String auth);
     Flux<Post> getAllPosts();
     Mono<Void> remove(Long id, String auth);
-    Flux<Post> findByUserId(Long userId);
+    Flux<Post> findByUserId(Long userId, String auth);
     Flux<Post> findByWord(String givenWord);
     Mono<Long> addPost(PostAPIRequest postAPIRequest, String auth);
 }
