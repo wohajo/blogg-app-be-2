@@ -41,6 +41,7 @@ dependencies {
 	compile 'com.opencsv:opencsv:5.3'
 	runtimeOnly 'io.r2dbc:r2dbc-postgresql'
 	runtimeOnly 'org.postgresql:postgresql'
+	compile group: 'org.glassfish', name: 'javax.el', version: '3.0.1-b08'
 	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

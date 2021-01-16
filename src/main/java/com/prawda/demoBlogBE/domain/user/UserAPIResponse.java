@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserAPIResponse {
     private Long id;
+    private String username;
     private String name;
     private String email;
     private Boolean isAdmin;

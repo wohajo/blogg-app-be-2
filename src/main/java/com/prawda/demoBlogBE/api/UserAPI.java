@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("api/users")
 @AllArgsConstructor
@@ -16,7 +18,7 @@ public class UserAPI {
 
     @CrossOrigin
     @PostMapping("/register")
-    public Mono<Long> registerUser(@RequestBody UserAPIRequest userAPIRequest) {
+    public Mono<Long> registerUser(@RequestBody @Valid UserAPIRequest userAPIRequest) {
         return
                 userService.registerUser(userAPIRequest);
     }

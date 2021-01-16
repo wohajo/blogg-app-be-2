@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostAPIResponse {
     private Long id;
+    private Long userId;
     private String contents;
     private String name;
 }

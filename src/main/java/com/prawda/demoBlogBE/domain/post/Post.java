@@ -20,6 +20,6 @@ public class Post {
     }
 
     public PostAPIResponse toAPIResponse() {
-        return new PostAPIResponse(id, contents, user.getName());
+        return new PostAPIResponse(id, user.getId(), contents, user.getName());
     }
 }

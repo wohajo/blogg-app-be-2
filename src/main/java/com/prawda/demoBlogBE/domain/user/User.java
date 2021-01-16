@@ -43,6 +43,6 @@ public class User {
     }
 
     public UserAPIResponse toAPIResponse() {
-        return new UserAPIResponse(id, name, email, isAdmin);
+        return new UserAPIResponse(id, username, name, email, isAdmin);
     }
 }
