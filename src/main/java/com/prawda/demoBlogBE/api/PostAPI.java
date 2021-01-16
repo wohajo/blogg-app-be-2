@@ -21,6 +21,7 @@ public class PostAPI {
         return postService.getAllPosts().map(Post::toAPIResponse);
     }
 
+    @CrossOrigin
     @GetMapping("/user/{id}")
     public Flux<PostAPIResponse> getPostsByUserId(
             @RequestHeader("Authorization") String auth,
