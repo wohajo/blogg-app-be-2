@@ -21,10 +21,10 @@ public class UserServiceImplementation implements UserService {
     @Override
     public Mono<Long> registerUser(UserAPIRequest userAPIRequest) {
         return userRepository
-                .findByName(userAPIRequest.getName())
-                .hasElement()
+                .findByNameOrUsernameOrEmail(userAPIRequest.getName(), userAPIRequest.getUsername(), userAPIRequest.getEmail())
+                .hasElements()
                 .filter(aBoolean -> !aBoolean)
-                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already in database.")))
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "This email, name or username is already in database.")))
                 .thenReturn(userAPIRequest)
                 .map(userAPIRequest1 -> userAPIRequest1.toDomain().toDBO())
                 .flatMap(userRepository::save)
