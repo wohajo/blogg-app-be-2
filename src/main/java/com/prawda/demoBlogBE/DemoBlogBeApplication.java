@@ -21,7 +21,7 @@ public class DemoBlogBeApplication {
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(DemoBlogBeApplication.class, args);
 	}
-/*
+
 	@Bean
 	public CommandLineRunner demo(UserRepository userRepository, PostRepository postRepository) throws IOException {
 
@@ -44,5 +44,4 @@ public class DemoBlogBeApplication {
 
 		};
 	}
-*/
 }
