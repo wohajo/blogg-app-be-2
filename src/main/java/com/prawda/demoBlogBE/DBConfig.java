@@ -21,7 +21,7 @@ public class DBConfig extends AbstractR2dbcConfiguration {
     @Override
     @Bean
     public ConnectionFactory connectionFactory() {
-        String dbUrl = System.getenv("DB_URL");
+        String dbUrl = System.getenv("DATABASE_URL");
         URI uri = new URI(dbUrl);
         String user = uri.getUserInfo().split(":")[0];
         String password = uri.getUserInfo().split(":")[1];
