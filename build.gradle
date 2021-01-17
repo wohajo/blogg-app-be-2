@@ -1,9 +1,6 @@
 plugins {
 	id 'org.springframework.boot' version '2.4.1'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-
-
-	id "org.flywaydb.flyway" version "7.4.0"
 	id 'java'
 }
 
@@ -20,8 +17,6 @@ configurations {
 repositories {
 	mavenCentral()
 }
-
-classes.dependsOn(flywayMigrate)
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
