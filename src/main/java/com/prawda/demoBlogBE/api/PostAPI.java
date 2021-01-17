@@ -36,6 +36,16 @@ public class PostAPI {
     }
 
     @CrossOrigin
+    @GetMapping("/find/contents/{contents}")
+    public Flux<PostAPIResponse> getPostsByWord(
+            @RequestHeader("Authorization") String auth,
+            @PathVariable String contents) {
+        return postService
+                .findByContents(contents, auth)
+                .map(Post::toAPIResponse);
+    }
+
+    @CrossOrigin
     @PostMapping
     public Mono<Long> addPost(
             @RequestHeader("Authorization") String auth,

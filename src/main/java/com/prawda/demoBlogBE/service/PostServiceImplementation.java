@@ -72,10 +72,13 @@ public class PostServiceImplementation implements PostService {
     }
 
     @Override
-    public Flux<Post> findByWord(String givenWord) {
-        return postRepository
-                .findByContents(givenWord)
-                .flatMap(this::withUser);
+    public Flux<Post> findByContents(String givenWord, String auth) {
+        return userService
+                .authorizeUser(auth)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized.")))
+                .thenMany(postRepository
+                        .findByContentsContaining(givenWord)
+                        .flatMap(this::withUser));
     }
 
     @Override
