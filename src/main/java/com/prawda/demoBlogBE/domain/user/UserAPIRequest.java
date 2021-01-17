@@ -54,9 +54,9 @@ public class UserAPIRequest {
                 ._string(UserAPIRequest::getPassword, "password", password -> password.notNull()
                         .notBlank()
                         .message("Password cannot be empty.")
-                        .greaterThanOrEqual(3)
+                        .greaterThanOrEqual(8)
                         .lessThanOrEqual(60)
-                        .message("Password must be between 3 and 60 characters.")
+                        .message("Password must be between 8 and 60 characters.")
                 )
                 ._string(UserAPIRequest::getEmail, "email", email -> email.notNull()
                         .notBlank()
@@ -64,7 +64,8 @@ public class UserAPIRequest {
                         .greaterThanOrEqual(3)
                         .lessThanOrEqual(60)
                         .message("Email must be between 3 and 60 characters.")
-                        .email()
+                        .pattern("[\\w]+[@][\\w][.][\\w]")
+                        .message("Email must have format like [x]@[y].[z]")
                 )
                 .build();
     }
