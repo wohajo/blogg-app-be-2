@@ -17,14 +17,6 @@ configurations {
 	}
 }
 
-
-flyway {
-	url = 'jdbc:postgresql://localhost:5432/demoblogbe'
-	user = 'postgres'
-	password = 'postgres'
-	locations = ['classpath:db/migrations']
-}
-
 repositories {
 	mavenCentral()
 }
@@ -35,7 +27,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'org.hibernate.validator:hibernate-validator:7.0.0.Final'
-	implementation 'org.flywaydb:flyway-core'
 	compile group: 'commons-codec', name: 'commons-codec', version: '1.15'
 	compileOnly 'org.projectlombok:lombok'
 	compile 'com.opencsv:opencsv:5.3'
