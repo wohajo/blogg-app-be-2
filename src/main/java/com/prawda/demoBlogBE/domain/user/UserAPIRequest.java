@@ -64,7 +64,7 @@ public class UserAPIRequest {
                         .greaterThanOrEqual(3)
                         .lessThanOrEqual(60)
                         .message("Email must be between 3 and 60 characters.")
-                        .pattern("[\\w]+[@][\\w][.][\\w]")
+                        .pattern("[\\w]+[@][\\w]+[.][\\w]+")
                         .message("Email must have format like [x]@[y].[z]")
                 )
                 .build();

@@ -6,10 +6,13 @@ import com.prawda.demoBlogBE.domain.user.UserDBO;
 import com.prawda.demoBlogBE.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
+
+import javax.mail.MessagingException;
 
 
 @Service
@@ -17,6 +20,8 @@ import reactor.core.publisher.Mono;
 public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
+    @Autowired
+    EmailService emailService;
 
     @Override
     public Mono<Long> registerUser(UserAPIRequest userAPIRequest) {
@@ -26,7 +31,14 @@ public class UserServiceImplementation implements UserService {
                 .filter(aBoolean -> !aBoolean)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "This email, name or username is already in database.")))
                 .thenReturn(userAPIRequest)
-                .map(userAPIRequest1 -> userAPIRequest1.toDomain().toDBO())
+                .map(userAPIRequest1 -> {
+                    try {
+                        emailService.send(userAPIRequest1.getEmail(), userAPIRequest1.getName(), userAPIRequest1.getUsername());
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                    return userAPIRequest1.toDomain().toDBO();
+                })
                 .flatMap(userRepository::save)
                 .map(UserDBO::getId);
     }
