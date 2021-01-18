@@ -14,6 +14,7 @@ configurations {
 	}
 }
 
+
 repositories {
 	mavenCentral()
 }
@@ -22,13 +23,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'org.hibernate.validator:hibernate-validator:7.0.0.Final'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.4.2'
 	compile group: 'commons-codec', name: 'commons-codec', version: '1.15'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'am.ik.yavi:yavi:0.4.1'
 	compile 'com.opencsv:opencsv:5.3'
 	runtimeOnly 'io.r2dbc:r2dbc-postgresql'
 	runtimeOnly 'org.postgresql:postgresql'
 	compile group: 'org.glassfish', name: 'javax.el', version: '3.0.1-b08'
 	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'io.r2dbc:r2dbc-postgresql'
+	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'

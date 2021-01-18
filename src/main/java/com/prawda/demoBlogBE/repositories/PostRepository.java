@@ -9,5 +9,5 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface PostRepository extends ReactiveSortingRepository<PostDBO, Long> {
     Flux<PostDBO> findByUserId(long userId);
-    Flux<PostDBO> findByContents(String givenWord);
+    Flux<PostDBO> findByContentsContaining(String givenWord);
 }

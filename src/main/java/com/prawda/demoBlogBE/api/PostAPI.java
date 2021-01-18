@@ -1,14 +1,18 @@
 package com.prawda.demoBlogBE.api;
 
+import am.ik.yavi.core.ConstraintViolation;
 import com.prawda.demoBlogBE.domain.post.Post;
 import com.prawda.demoBlogBE.domain.post.PostAPIRequest;
 import com.prawda.demoBlogBE.domain.post.PostAPIResponse;
-import com.prawda.demoBlogBE.domain.user.UserAPIRequest;
 import com.prawda.demoBlogBE.service.PostService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/posts")
@@ -32,11 +36,33 @@ public class PostAPI {
     }
 
     @CrossOrigin
+    @GetMapping("/find/contents/{contents}")
+    public Flux<PostAPIResponse> getPostsByWord(
+            @RequestHeader("Authorization") String auth,
+            @PathVariable String contents) {
+        return postService
+                .findByContents(contents, auth)
+                .map(Post::toAPIResponse);
+    }
+
+    @CrossOrigin
     @PostMapping
     public Mono<Long> addPost(
             @RequestHeader("Authorization") String auth,
             @RequestBody PostAPIRequest postAPIRequest) {
-        return postService.addPost(postAPIRequest, auth);
+        return PostAPIRequest
+                .validator()
+                .validateToEither(postAPIRequest)
+                .fold(
+                        error -> Mono.error(new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                error
+                                        .stream()
+                                        .map(ConstraintViolation::message)
+                                        .filter(s -> !s.contains("null"))
+                                        .collect(Collectors.joining("||")))),
+                        validatedPost -> postService.addPost(validatedPost, auth)
+                );
     }
 
     @CrossOrigin
@@ -45,7 +71,19 @@ public class PostAPI {
             @RequestHeader("Authorization") String auth,
             @PathVariable Long id,
             @RequestBody PostAPIRequest postAPIRequest) {
-        return postService.updatePost(postAPIRequest, id, auth);
+        return PostAPIRequest
+                .validator()
+                .validateToEither(postAPIRequest)
+                .fold(
+                        error -> Mono.error(new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                error
+                                        .stream()
+                                        .map(ConstraintViolation::message)
+                                        .filter(s -> !s.contains("null"))
+                                        .collect(Collectors.joining("||")))),
+                        validatedPost -> postService.updatePost(postAPIRequest, id, auth)
+                );
     }
 
     @CrossOrigin
