@@ -1,6 +1,7 @@
 package com.prawda.demoBlogBE.api;
 
 import am.ik.yavi.core.ConstraintViolation;
+import com.prawda.demoBlogBE.domain.StatisticsResponse;
 import com.prawda.demoBlogBE.domain.user.User;
 import com.prawda.demoBlogBE.domain.user.UserAPIRequest;
 import com.prawda.demoBlogBE.domain.user.UserAPIResponse;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.mail.MessagingException;
@@ -48,5 +50,12 @@ public class UserAPI {
         return
                 userService.authorizeUser(auth)
                 .map(User::toAPIResponse);
+    }
+
+    @CrossOrigin
+    @GetMapping("/find/best-users")
+    public Flux<StatisticsResponse> bestUsers(@RequestHeader("Authorization") String auth) {
+        return
+                userService.bestUsers(auth);
     }
 }

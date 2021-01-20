@@ -6,6 +6,7 @@ import com.prawda.demoBlogBE.domain.post.PostDBO;
 import com.prawda.demoBlogBE.repositories.PostRepository;
 import com.prawda.demoBlogBE.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -69,6 +70,18 @@ public class PostServiceImplementation implements PostService {
                 .thenMany(postRepository
                         .findByUserId(userId)
                         .flatMap(this::withUser));
+    }
+
+    @Override
+    public Flux<Post> findLongestPosts(String auth) {
+        return userService
+                .authorizeUser(auth)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized.")))
+                .thenMany(
+                        postRepository
+                                .findAllByContentsLength()
+                                .flatMap(this::withUser)
+                );
     }
 
     @Override

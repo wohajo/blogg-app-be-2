@@ -1,5 +1,6 @@
 package com.prawda.demoBlogBE.service;
 
+import com.prawda.demoBlogBE.domain.StatisticsResponse;
 import com.prawda.demoBlogBE.domain.user.User;
 import com.prawda.demoBlogBE.domain.user.UserAPIRequest;
 import com.prawda.demoBlogBE.domain.user.UserDBO;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.mail.MessagingException;
@@ -56,5 +58,12 @@ public class UserServiceImplementation implements UserService {
                         .findByUsernameAndPasswordHash(authArray1[0], DigestUtils.sha512Hex(authArray1[1])))
                 .map(userDBO -> userDBO.toDomain())
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized.")));
+    }
+
+    @Override
+    public Flux<StatisticsResponse> bestUsers(String auth) {
+        return this.authorizeUser(auth)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized.")))
+                .thenMany(userRepository.findUsersWithMostPosts());
     }
 }

@@ -11,6 +11,7 @@ public interface PostService {
     Flux<Post> getAllPosts();
     Mono<Void> remove(Long id, String auth);
     Flux<Post> findByUserId(Long userId, String auth);
+    Flux<Post> findLongestPosts(String auth);
     Flux<Post> findByContents(String givenWord, String auth);
     Mono<Long> addPost(PostAPIRequest postAPIRequest, String auth);
 }

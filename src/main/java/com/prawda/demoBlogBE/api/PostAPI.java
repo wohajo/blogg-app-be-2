@@ -46,6 +46,15 @@ public class PostAPI {
     }
 
     @CrossOrigin
+    @GetMapping("/find/longest-posts")
+    public Flux<PostAPIResponse> getLongestPosts(
+            @RequestHeader("Authorization") String auth) {
+        return postService
+                .findLongestPosts(auth)
+                .map(Post::toAPIResponse);
+    }
+
+    @CrossOrigin
     @PostMapping
     public Mono<Long> addPost(
             @RequestHeader("Authorization") String auth,
